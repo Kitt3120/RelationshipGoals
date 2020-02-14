@@ -52,13 +52,30 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Goals\Goal.cs" />
+    <Compile Include="Goals\GoalTree.cs" />
+    <Compile Include="IO\DataProvider\IDataProvider.cs" />
+    <Compile Include="IO\DataProvider\Implementation\FileDataProvider.cs" />
+    <Compile Include="IO\DataProvider\Implementation\WebContentProvider.cs" />
+    <Compile Include="IO\DataWriter\IDataWriter.cs" />
+    <Compile Include="IO\DataWriter\Implementation\FileDataWriter.cs" />
+    <Compile Include="IO\IOHandlers.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Properties\URLs.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>URLs.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <Compile Include="Properties\URLs.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>URLs.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
@@ -76,5 +93,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

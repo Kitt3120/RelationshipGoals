@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RelationshipGoals.IO.DataProvider.Implementation
 {
-    internal class WebContentProvider : IDataProvider
+    public class WebContentProvider : IDataProvider
     {
         public T Provide<T>(string key, string[] options = null)
         {

@@ -14,3 +14,5 @@
  The database schema should be implemented as shown in the SQL Diagram.
  
  The database user must have select, insert, update and delete privileges.
+ 
+ An example for implementation can be found in SQLSetupExample.sql

@@ -5,14 +5,19 @@ namespace RelationshipGoals.Goals
 {
     internal class GoalTree
     {
+        public int ID { get; }
+        public string Title { get; }
+        public string Description { get; }
+
         private List<Goal> _goals;
 
-        public string Title { get; }
-
-        public GoalTree(string title)
+        public GoalTree(int id, string title, string description)
         {
-            _goals = new List<Goal>();
+            ID = id;
             Title = title;
+            Description = description;
+
+            _goals = new List<Goal>();
         }
 
         public void Add(Goal goal) => _goals.Add(goal);

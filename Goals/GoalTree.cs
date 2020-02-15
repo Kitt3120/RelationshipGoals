@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace RelationshipGoals.Goals
 {
@@ -48,6 +49,6 @@ namespace RelationshipGoals.Goals
 
         public Goal LastUnlocked() => _goals.FindLast(goal => goal.Unlocked);
 
-        public Goal LastUnlockedIndex() => _goals.FindLast(goal => goal.Unlocked);
+        public int LastUnlockedIndex() => _goals.FindLastIndex(goal => goal.Unlocked);
     }
 }

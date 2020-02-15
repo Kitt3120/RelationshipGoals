@@ -20,7 +20,7 @@ create table GoalOccurence
 (
  GoalTreeID integer,
  GoalID integer,
- Position numeric(5),
+ Position numeric(3),
  constraint PK_GoalOccurence primary key (GoalTreeID,GoalID),
  constraint FK_GoalTreeID foreign key (GoalTreeID) references GoalTree(ID),
  constraint FK_GoalID foreign key (GoalID) references Goal(ID)

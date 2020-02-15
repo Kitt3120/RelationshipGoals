@@ -84,6 +84,7 @@
     <Compile Include="IO\IOHandlers.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SQL\SQLHandler.cs" />
     <EmbeddedResource Include="Properties\URLs.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>URLs.Designer.cs</LastGenOutput>

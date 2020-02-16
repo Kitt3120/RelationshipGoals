@@ -3,8 +3,9 @@
 -- Create User
 create user 'YOUR_USER'@'%' identified by 'YOUR_PASSWORD';
 
--- Create Database
+-- Create Database and use it
 create schema YOUR_DATABASE_NAME;
+use YOUR_DATABASE_NAME;
 
 -- Grant Privileges
 grant select, insert, update, delete on YOUR_DATABASE_NAME.* TO 'YOUR_USER'@'%';

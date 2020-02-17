@@ -16,6 +16,8 @@ namespace RelationshipGoals
 {
     public partial class FormSettings : Form
     {
+        private bool _allowClose = false; //Used to only allow form closing when settings are correct
+
         public FormSettings()
         {
             InitializeComponent();
@@ -121,7 +123,14 @@ namespace RelationshipGoals
             Settings.Default.SQL_Server_Password = textBoxSqlPassword.Text;
             Settings.Default.SQL_Server_Schema = comboBoxSqlSchema.SelectedItem as string;
             Settings.Default.Save();
+            _allowClose = true;
             Close();
+        }
+
+        private void FormSettings_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!_allowClose)
+                e.Cancel = true;
         }
     }
 }

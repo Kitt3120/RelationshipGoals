@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using RelationshipGoals.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,22 +14,47 @@ namespace RelationshipGoals.SQL
 {
     public class SQLHandler
     {
+        public static bool Check(string Address, string Schema, string Login, string Password)
+        {
+            if (
+                   string.IsNullOrWhiteSpace(Settings.Default.SQL_Server_Address)
+                || string.IsNullOrWhiteSpace(Settings.Default.SQL_Server_Login)
+                || string.IsNullOrWhiteSpace(Settings.Default.SQL_Server_Password)
+                || string.IsNullOrWhiteSpace(Settings.Default.SQL_Server_Schema)
+               )
+                return false;
+
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection($"SERVER={Address};DATABASE={Schema};USER={Login};PASSWORD={Password}"))
+                {
+                    connection.Open();
+                }
+
+                return true;
+            }
+            catch (MySqlException)
+            {
+                return false;
+            }
+        }
+
         public string Address { get; }
         public string Schema { get; }
-        public string User { get; }
+        public string Login { get; }
         public string Password { get; }
 
-        public SQLHandler(string address, string schema, string user, string password)
+        public SQLHandler(string address, string schema, string login, string password)
         {
             Address = address;
             Schema = schema;
-            User = user;
+            Login = login;
             Password = password;
         }
 
         public DataTable ReadQuery(string query, List<KeyValuePair<string, string>> values = null)
         {
-            using (MySqlConnection connection = new MySqlConnection($"SERVER={Address};DATABASE={Schema};USER={User};PASSWORD={Password}"))
+            using (MySqlConnection connection = new MySqlConnection($"SERVER={Address};DATABASE={Schema};USER={Login};PASSWORD={Password}"))
             {
                 connection.Open();
 
@@ -48,7 +74,7 @@ namespace RelationshipGoals.SQL
 
         public async Task<DataTable> ReadQueryAsync(string query, List<KeyValuePair<string, string>> values = null)
         {
-            using (MySqlConnection connection = new MySqlConnection($"SERVER={Address};DATABASE={Schema};USER={User};PASSWORD={Password}"))
+            using (MySqlConnection connection = new MySqlConnection($"SERVER={Address};DATABASE={Schema};USER={Login};PASSWORD={Password}"))
             {
                 await connection.OpenAsync();
 
@@ -68,7 +94,7 @@ namespace RelationshipGoals.SQL
 
         public int SendQuery(string query, Dictionary<string, string> values = null)
         {
-            using (MySqlConnection connection = new MySqlConnection($"SERVER={Address};DATABASE={Schema};USER={User};PASSWORD={Password}"))
+            using (MySqlConnection connection = new MySqlConnection($"SERVER={Address};DATABASE={Schema};USER={Login};PASSWORD={Password}"))
             {
                 connection.Open();
 
@@ -85,7 +111,7 @@ namespace RelationshipGoals.SQL
 
         public async Task<int> SendQueryAsync(string query, Dictionary<string, string> values = null)
         {
-            using (MySqlConnection connection = new MySqlConnection($"SERVER={Address};DATABASE={Schema};USER={User};PASSWORD={Password}"))
+            using (MySqlConnection connection = new MySqlConnection($"SERVER={Address};DATABASE={Schema};USER={Login};PASSWORD={Password}"))
             {
                 await connection.OpenAsync();
 

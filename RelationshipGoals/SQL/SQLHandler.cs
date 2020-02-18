@@ -27,9 +27,7 @@ namespace RelationshipGoals.SQL
             try
             {
                 using (MySqlConnection connection = new MySqlConnection($"SERVER={Address};DATABASE={Schema};USER={Login};PASSWORD={Password}"))
-                {
                     connection.Open();
-                }
 
                 return true;
             }
@@ -52,9 +50,7 @@ namespace RelationshipGoals.SQL
             try
             {
                 using (MySqlConnection connection = new MySqlConnection($"SERVER={Address};DATABASE={Schema};USER={Login};PASSWORD={Password}"))
-                {
                     await connection.OpenAsync();
-                }
 
                 return true;
             }

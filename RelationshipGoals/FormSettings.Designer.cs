@@ -63,7 +63,7 @@
             this.groupBoxSettingsSQL.Controls.Add(this.labelSqlAddress);
             this.groupBoxSettingsSQL.Location = new System.Drawing.Point(12, 12);
             this.groupBoxSettingsSQL.Name = "groupBoxSettingsSQL";
-            this.groupBoxSettingsSQL.Size = new System.Drawing.Size(310, 283);
+            this.groupBoxSettingsSQL.Size = new System.Drawing.Size(310, 260);
             this.groupBoxSettingsSQL.TabIndex = 0;
             this.groupBoxSettingsSQL.TabStop = false;
             this.groupBoxSettingsSQL.Text = "SQL Settings";
@@ -176,7 +176,7 @@
             // 
             this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonSave.Enabled = false;
-            this.buttonSave.Location = new System.Drawing.Point(247, 301);
+            this.buttonSave.Location = new System.Drawing.Point(247, 278);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 23);
             this.buttonSave.TabIndex = 1;
@@ -189,12 +189,16 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(334, 336);
-            this.ControlBox = false;
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.groupBoxSettingsSQL);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(350, 375);
+            this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(350, 375);
             this.Name = "FormSettings";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Settings";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormSettings_FormClosing);
             this.groupBoxSettingsSQL.ResumeLayout(false);

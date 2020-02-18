@@ -130,7 +130,10 @@ namespace RelationshipGoals
         private void FormSettings_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (!_allowClose)
-                e.Cancel = true;
+                if (MessageBox.Show("Do you want to close this window and exit the program?", "Exit program?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    Environment.Exit(0);
+                else
+                    e.Cancel = true;
         }
     }
 }

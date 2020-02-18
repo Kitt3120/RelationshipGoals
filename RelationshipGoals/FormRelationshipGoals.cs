@@ -1,6 +1,5 @@
-﻿using RelationshipGoals.Properties;
-using RelationshipGoals.SQL;
-using System.Reflection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using RelationshipGoals.Goals;
 using System.Windows.Forms;
 
 namespace RelationshipGoals
@@ -10,6 +9,22 @@ namespace RelationshipGoals
         public FormRelationshipGoals()
         {
             InitializeComponent();
+
+            Program.Ready += Program_Ready;
+        }
+
+        private void Program_Ready()
+        {
+            GoalManager goalManager = Program.ServiceProvider.GetService<GoalManager>();
+
+            foreach (GoalTree goalTree in goalManager.GoalTrees)
+            {
+                int columnId = dataGridView.Columns.Add(goalTree.ID.ToString(), goalTree.Title);
+
+                foreach (Goal goal in goalTree.Goals.orde)
+                {
+                }
+            }
         }
     }
 }

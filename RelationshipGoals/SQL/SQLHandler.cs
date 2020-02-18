@@ -39,6 +39,31 @@ namespace RelationshipGoals.SQL
             }
         }
 
+        public static async Task<bool> CheckAsync(string Address, string Schema, string Login, string Password)
+        {
+            if (
+                   string.IsNullOrWhiteSpace(Settings.Default.SQL_Server_Address)
+                || string.IsNullOrWhiteSpace(Settings.Default.SQL_Server_Login)
+                || string.IsNullOrWhiteSpace(Settings.Default.SQL_Server_Password)
+                || string.IsNullOrWhiteSpace(Settings.Default.SQL_Server_Schema)
+               )
+                return false;
+
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection($"SERVER={Address};DATABASE={Schema};USER={Login};PASSWORD={Password}"))
+                {
+                    await connection.OpenAsync();
+                }
+
+                return true;
+            }
+            catch (MySqlException)
+            {
+                return false;
+            }
+        }
+
         public string Address { get; }
         public string Schema { get; }
         public string Login { get; }

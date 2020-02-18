@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 
 namespace RelationshipGoals.Goals
@@ -8,8 +9,7 @@ namespace RelationshipGoals.Goals
         public int ID { get; }
         public string Title { get; }
         public string Description { get; }
-
-        private Dictionary<int, Goal> _goals;
+        public OrderedDictionary Goals { get; }
 
         public GoalTree(int id, string title, string description)
         {
@@ -17,43 +17,43 @@ namespace RelationshipGoals.Goals
             Title = title;
             Description = description;
 
-            _goals = new Dictionary<int, Goal>();
+            Goals = new OrderedDictionary();
         }
 
-        public void Add(Goal goal) => _goals.Add(_goals.Count, goal);
+        public void Add(Goal goal) => Goals.Add(Goals.Count, goal);
 
-        public void Insert(int index, Goal goal) => _goals.Add(index, goal);
+        public void Insert(int index, Goal goal) => Goals.Add(index, goal);
 
-        public void Remove(Goal goal) => _goals.Remove(_goals.Where(pair => pair.Value == goal).Select(pair => pair.Key).FirstOrDefault());
+        public void Remove(Goal goal) => Goals.RemoveAt(PositionOf(goal));
 
-        public void RemoveAt(int index) => _goals.Remove(index);
+        public void RemoveAt(int index) => Goals.Remove(index);
 
-        public int PositionOf(Goal goal) => _goals.Where(pair => pair.Value == goal).Select(pair => pair.Key).FirstOrDefault();
+        public int PositionOf(Goal goal) => Goals.OfType<KeyValuePair<int, object>>().Where(pair => pair.Value == goal).Select(pair => pair.Key).FirstOrDefault(); //Goals.Where(pair => pair.Value == goal).private Select(pair => pair.Key).private FirstOrDefault();
 
-        public Goal At(int index) => _goals[index];
+        public Goal At(int index) => (Goal)Goals[index];
 
         public Goal Before(Goal goal)
         {
-            if (!_goals.ContainsValue(goal))
+            if (!Goals.Contains(goal))
                 return null;
             else if (PositionOf(goal) == 0)
                 return null;
             else
-                return _goals[PositionOf(goal) - 1];
+                return (Goal)Goals[PositionOf(goal) - 1];
         }
 
         public Goal After(Goal goal)
         {
-            if (!_goals.ContainsValue(goal))
+            if (!Goals.Contains(goal))
                 return null;
-            else if (PositionOf(goal) >= _goals.Count - 1)
+            else if (PositionOf(goal) >= Goals.Count - 1)
                 return null;
             else
-                return _goals[PositionOf(goal) + 1];
+                return (Goal)Goals[PositionOf(goal) + 1];
         }
 
-        public Goal LastUnlocked() => _goals.FirstOrDefault(pair => pair.Value.Unlocked).Value;
+        public Goal LastUnlocked() => Goals.Values.OfType<Goal>().LastOrDefault(goal => goal.Unlocked);
 
-        public int LastUnlockedPosition() => _goals.FirstOrDefault(pair => pair.Value.Unlocked).Key;
+        public int LastUnlockedPosition() => PositionOf(LastUnlocked());
     }
 }

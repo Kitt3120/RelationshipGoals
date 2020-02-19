@@ -40,6 +40,7 @@ namespace RelationshipGoals
                 while (formSettings.Visible) //Wait until valid settings have been provided before building ServiceProvider
                     Thread.Sleep(1000);
             }
+            SQLHandler.Use(new SQLHandler(Settings.Default.SQL_Server_Address, Settings.Default.SQL_Server_Schema, Settings.Default.SQL_Server_Login, Settings.Default.SQL_Server_Password));
 
             BuildServiceProvider();
 

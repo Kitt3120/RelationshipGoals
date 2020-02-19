@@ -12,8 +12,6 @@ namespace RelationshipGoals.Goals
 {
     internal class GoalManager
     {
-        private SQLHandler _sqlHandler;
-
         public List<Goal> Goals { get; private set; }
         public List<GoalTree> GoalTrees { get; private set; }
 
@@ -22,18 +20,15 @@ namespace RelationshipGoals.Goals
             Goals = new List<Goal>();
             GoalTrees = new List<GoalTree>();
 
-            NewConnection();
             FetchData();
         }
-
-        public void NewConnection() => _sqlHandler = new SQLHandler(Settings.Default.SQL_Server_Address, Settings.Default.SQL_Server_Schema, Settings.Default.SQL_Server_Login, Settings.Default.SQL_Server_Password);
 
         public void FetchData()
         {
             //Goals
             List<Goal> newGoals = new List<Goal>();
 
-            DataTable goalDataTable = _sqlHandler.ReadQuery("SELECT * FROM Goal");
+            DataTable goalDataTable = SQLHandler.Current.ReadQuery("SELECT * FROM Goal");
             foreach (DataRow row in goalDataTable.Rows)
             {
                 int id = (int)row.ItemArray[0];
@@ -48,7 +43,7 @@ namespace RelationshipGoals.Goals
             //GoalTrees
             List<GoalTree> newGoalTrees = new List<GoalTree>();
 
-            DataTable goalTreesDataTable = _sqlHandler.ReadQuery("SELECT * FROM GoalTree");
+            DataTable goalTreesDataTable = SQLHandler.Current.ReadQuery("SELECT * FROM GoalTree");
             foreach (DataRow row in goalTreesDataTable.Rows)
             {
                 int id = (int)int.Parse(row.ItemArray[0].ToString());
@@ -59,7 +54,7 @@ namespace RelationshipGoals.Goals
             }
 
             //GoalOccurences
-            DataTable goalOccurenceDataTable = _sqlHandler.ReadQuery("SELECT * FROM GoalOccurence");
+            DataTable goalOccurenceDataTable = SQLHandler.Current.ReadQuery("SELECT * FROM GoalOccurence");
             foreach (DataRow row in goalOccurenceDataTable.Rows)
             {
                 int goalTreeId = int.Parse(row.ItemArray[0].ToString());
@@ -78,7 +73,7 @@ namespace RelationshipGoals.Goals
             //Goals
             List<Goal> newGoals = new List<Goal>();
 
-            DataTable goalDataTable = await _sqlHandler.ReadQueryAsync("SELECT * FROM Goal");
+            DataTable goalDataTable = await SQLHandler.Current.ReadQueryAsync("SELECT * FROM Goal");
             foreach (DataRow row in goalDataTable.Rows)
             {
                 int id = (int)row.ItemArray[0];
@@ -93,7 +88,7 @@ namespace RelationshipGoals.Goals
             //GoalTrees
             List<GoalTree> newGoalTrees = new List<GoalTree>();
 
-            DataTable goalTreesDataTable = await _sqlHandler.ReadQueryAsync("SELECT * FROM GoalTree");
+            DataTable goalTreesDataTable = await SQLHandler.Current.ReadQueryAsync("SELECT * FROM GoalTree");
             foreach (DataRow row in goalTreesDataTable.Rows)
             {
                 int id = (int)int.Parse(row.ItemArray[0].ToString());
@@ -104,7 +99,7 @@ namespace RelationshipGoals.Goals
             }
 
             //GoalOccurences
-            DataTable goalOccurenceDataTable = await _sqlHandler.ReadQueryAsync("SELECT * FROM GoalOccurence");
+            DataTable goalOccurenceDataTable = await SQLHandler.Current.ReadQueryAsync("SELECT * FROM GoalOccurence");
             foreach (DataRow row in goalOccurenceDataTable.Rows)
             {
                 int goalTreeId = int.Parse(row.ItemArray[0].ToString());

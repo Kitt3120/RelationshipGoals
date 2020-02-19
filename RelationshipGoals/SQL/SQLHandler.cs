@@ -60,6 +60,10 @@ namespace RelationshipGoals.SQL
             }
         }
 
+        public static void Use(SQLHandler sqlHandler) => Current = sqlHandler;
+
+        public static SQLHandler Current { get; private set; }
+
         public string Address { get; }
         public string Schema { get; }
         public string Login { get; }

@@ -48,6 +48,7 @@
             this.dataGridView.Location = new System.Drawing.Point(0, 0);
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.ReadOnly = true;
+            this.dataGridView.RowHeadersVisible = false;
             this.dataGridView.Size = new System.Drawing.Size(783, 461);
             this.dataGridView.TabIndex = 0;
             // 
@@ -58,7 +59,7 @@
             this.BackColor = System.Drawing.Color.Thistle;
             this.ClientSize = new System.Drawing.Size(784, 461);
             this.Controls.Add(this.dataGridView);
-            this.ForeColor = System.Drawing.Color.Thistle;
+            this.ForeColor = System.Drawing.SystemColors.WindowText;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormRelationshipGoals";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

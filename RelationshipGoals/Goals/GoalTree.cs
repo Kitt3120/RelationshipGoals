@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace RelationshipGoals.Goals
@@ -11,6 +12,12 @@ namespace RelationshipGoals.Goals
 
         private Dictionary<int, Goal> _goals;
 
+        public Goal this[int position] { get => At(position); set => Insert(position, value); }
+
+        public int Count { get => _goals.Count; }
+        public Dictionary<int, Goal>.KeyCollection Keys { get => _goals.Keys; }
+        public Dictionary<int, Goal>.ValueCollection Values { get => _goals.Values; }
+
         public GoalTree(int id, string title, string description)
         {
             ID = id;
@@ -20,40 +27,51 @@ namespace RelationshipGoals.Goals
             _goals = new Dictionary<int, Goal>();
         }
 
-        public void Add(Goal goal) => _goals.Add(_goals.Count, goal);
+        //Inserts goal at next available free position
+        public int Add(Goal goal)
+        {
+            int nextFreePosition = _goals.Keys.Where(key => !_goals.ContainsKey(key + 1)).Min(key => key);
+            Insert(nextFreePosition, goal);
+            return nextFreePosition;
+        }
 
-        public void Insert(int index, Goal goal) => _goals.Add(index, goal);
+        public void Insert(int position, Goal goal) => _goals[position] = goal;
 
-        public void Remove(Goal goal) => _goals.Remove(_goals.Where(pair => pair.Value == goal).Select(pair => pair.Key).FirstOrDefault());
+        public void Remove(Goal goal) => RemoveAt(PositionOf(goal));
 
-        public void RemoveAt(int index) => _goals.Remove(index);
+        public void RemoveAt(int position) => _goals.Remove(position);
 
-        public int PositionOf(Goal goal) => _goals.Where(pair => pair.Value == goal).Select(pair => pair.Key).FirstOrDefault();
+        public int PositionOf(Goal goal) => _goals.Where(pair => pair.Value == goal).FirstOrDefault().Key;
+
+        public int MinPosition() => _goals.Select(pair => pair.Key).Min();
+
+        public int MaxPosition() => _goals.Select(pair => pair.Key).Max();
 
         public Goal At(int index) => _goals[index];
 
         public Goal Before(Goal goal)
         {
-            if (!_goals.ContainsValue(goal))
-                return null;
-            else if (PositionOf(goal) == 0)
+            if (!_goals.ContainsValue(goal) || PositionOf(goal) <= MinPosition())
                 return null;
             else
-                return _goals[PositionOf(goal) - 1];
+                return At(_goals.Where(pair => pair.Key < PositionOf(goal)).Select(pair => pair.Key).Max());
         }
 
         public Goal After(Goal goal)
         {
-            if (!_goals.ContainsValue(goal))
-                return null;
-            else if (PositionOf(goal) >= _goals.Count - 1)
+            if (!_goals.ContainsValue(goal) || PositionOf(goal) >= MaxPosition())
                 return null;
             else
-                return _goals[PositionOf(goal) + 1];
+                return At(_goals.Where(pair => pair.Key > PositionOf(goal)).Select(pair => pair.Key).Min());
         }
 
-        public Goal LastUnlocked() => _goals.FirstOrDefault(pair => pair.Value.Unlocked).Value;
+        public Goal LastUnlocked() => At(LastUnlockedIndex());
 
-        public int LastUnlockedPosition() => _goals.FirstOrDefault(pair => pair.Value.Unlocked).Key;
+        public int LastUnlockedIndex() => _goals.Where(pair => pair.Value.Unlocked).Select(pair => pair.Key).Max();
+
+        public Dictionary<int, Goal> Ordered()
+        {
+            return _goals.OrderBy(pair => pair.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+        }
     }
 }

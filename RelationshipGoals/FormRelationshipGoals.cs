@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using RelationshipGoals.Goals;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace RelationshipGoals
@@ -11,11 +12,14 @@ namespace RelationshipGoals
         {
             InitializeComponent();
 
-            Program.Ready += Program_Ready;
+            Program.Ready += RefreshDataGridView;
         }
 
-        private void Program_Ready()
+        private void RefreshDataGridView()
         {
+            dataGridView.Rows.Clear();
+            dataGridView.Columns.Clear();
+
             GoalManager goalManager = Program.ServiceProvider.GetService<GoalManager>();
 
             foreach (GoalTree goalTree in goalManager.GoalTrees)

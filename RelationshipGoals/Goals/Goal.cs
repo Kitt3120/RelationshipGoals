@@ -15,9 +15,9 @@ namespace RelationshipGoals.Goals
         public int PointsToUnlock { get; }
         public bool Unlocked { get { return PointsCurrent >= PointsToUnlock; } }
 
-        public Goal(int iD, string title, string description, int pointsCurrent, int pointsToUnlock)
+        public Goal(int id, string title, string description, int pointsCurrent, int pointsToUnlock)
         {
-            ID = iD;
+            ID = id;
             Title = title;
             Description = description;
             PointsCurrent = pointsCurrent;

@@ -9,6 +9,7 @@ use YOUR_DATABASE_NAME;
 
 -- Grant Privileges
 grant select, insert, update, delete on YOUR_DATABASE_NAME.* TO 'YOUR_USER'@'localhost';
+flush privileges;
 
 create table Goal
 (

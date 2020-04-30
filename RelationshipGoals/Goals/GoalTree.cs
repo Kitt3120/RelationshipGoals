@@ -30,7 +30,7 @@ namespace RelationshipGoals.Goals
         //Inserts goal at next available free position
         public int Add(Goal goal)
         {
-            int nextFreePosition = _goals.Keys.Where(key => !_goals.ContainsKey(key + 1)).Min(key => key);
+            int nextFreePosition = _goals.Keys.Where(key => !_goals.ContainsKey(key + 1)).Min(key => key) + 1;
             Insert(nextFreePosition, goal);
             return nextFreePosition;
         }

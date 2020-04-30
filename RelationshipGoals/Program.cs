@@ -25,7 +25,6 @@ namespace RelationshipGoals
         /// </summary>
         [STAThread]
         private static void Main()
-
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

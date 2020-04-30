@@ -4,9 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace RelationshipGoals.Goals
 {
@@ -46,7 +44,7 @@ namespace RelationshipGoals.Goals
             DataTable goalTreesDataTable = SQLHandler.Current.ReadQuery("SELECT * FROM GoalTree");
             foreach (DataRow row in goalTreesDataTable.Rows)
             {
-                int id = (int)int.Parse(row.ItemArray[0].ToString());
+                int id = int.Parse(row.ItemArray[0].ToString());
                 string title = (string)row.ItemArray[1];
                 string description = (string)row.ItemArray[2];
 

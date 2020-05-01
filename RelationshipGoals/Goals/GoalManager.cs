@@ -33,7 +33,7 @@ namespace RelationshipGoals.Goals
                 string title = (string)row.ItemArray[1];
                 string description = (string)row.ItemArray[2];
                 int pointsCurrent = int.Parse(row.ItemArray[3].ToString());
-                int pointsToUnlock = int.Parse(row.ItemArray[3].ToString());
+                int pointsToUnlock = int.Parse(row.ItemArray[4].ToString());
 
                 newGoals.Add(new Goal(id, title, description, pointsCurrent, pointsToUnlock));
             }

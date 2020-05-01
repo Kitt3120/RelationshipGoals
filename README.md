@@ -11,8 +11,8 @@
  
  The program allows you to connect to your own database.
  
- The database schema should be implemented as shown in the SQL Diagram.
+ The database schema should be implemented as shown in the SQL Diagram (See "SQL Diagram.pdf").
  
  The database user must have select, insert, update and delete privileges.
  
- An example for implementation can be found in SQLSetupExample.sql
+ An example for implementation can be found in SQL setup example (See "SQLSetupExample.sql").

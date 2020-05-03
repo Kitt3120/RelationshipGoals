@@ -8,11 +8,11 @@ namespace RelationshipGoals.Goals
 {
     public class Goal
     {
-        public int ID { get; }
-        public string Title { get; }
-        public string Description { get; }
-        public int PointsCurrent { get; }
-        public int PointsToUnlock { get; }
+        public int ID { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public int PointsCurrent { get; set; }
+        public int PointsToUnlock { get; set; }
         public bool Unlocked { get { return PointsCurrent >= PointsToUnlock; } }
 
         public Goal(int id, string title, string description, int pointsCurrent, int pointsToUnlock)

@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using RelationshipGoals.Boot;
 using RelationshipGoals.Goals;
 using RelationshipGoals.Properties;
+using RelationshipGoals.Services.AssetService;
 using RelationshipGoals.SQL;
 using System;
 using System.Collections.Generic;
@@ -43,6 +45,7 @@ namespace RelationshipGoals
 
             BuildServiceProvider();
 
+            BootAnimation.Play();
             Ready.Invoke();
             Application.Run(formRelationshipGoals);
         }
@@ -51,6 +54,7 @@ namespace RelationshipGoals
         {
             IServiceCollection serviceCollection = new ServiceCollection();
 
+            serviceCollection.AddSingleton(new AssetService());
             serviceCollection.AddSingleton(new GoalManager());
 
             ServiceProvider = serviceCollection.BuildServiceProvider();

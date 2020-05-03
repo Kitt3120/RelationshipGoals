@@ -62,6 +62,7 @@
             this.ForeColor = System.Drawing.SystemColors.WindowText;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormRelationshipGoals";
+            this.Opacity = 0D;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Relationship Goals";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();

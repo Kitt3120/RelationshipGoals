@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace RelationshipGoals
@@ -14,7 +16,27 @@ namespace RelationshipGoals
         {
             InitializeComponent();
 
-            Program.Ready += RefreshDataGridView;
+            Program.Ready += OnReady;
+        }
+
+        private void OnReady()
+        {
+            new Task(async () =>
+            {
+                double opacity;
+                for (opacity = 0.01; opacity <= 1.0; opacity += 0.01)
+                {
+                    Invoke(new MethodInvoker(() => Opacity = opacity));
+                    await Task.Delay(1);
+                }
+
+                //Needed cause loop ends with 0,990000000000001 on some machines
+                opacity = 1.0;
+                Invoke(new MethodInvoker(() => Opacity = opacity));
+            }).Start();
+
+            Activate();
+            RefreshDataGridView();
         }
 
         private void RefreshDataGridView()

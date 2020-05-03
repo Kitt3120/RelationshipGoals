@@ -42,13 +42,14 @@ namespace RelationshipGoals.Boot
         {
             double swingSpeed = _random.NextDouble() / 10;
             int swingRange = _random.Next(75, 200);
+            double acceleration = _random.NextDouble() / 4 + 0.1D;
 
             MethodInvoker applyLocationInvoker = new MethodInvoker(ApplyLocation);
             try
             {
                 while (_location.Y + Height >= 0)
                 {
-                    _speed += 0.5D;
+                    _speed += acceleration;
 
                     _location.Y -= (int)_speed;
                     _xOffset = (int)(Math.Sin(_ticksLived * swingSpeed) * swingRange);

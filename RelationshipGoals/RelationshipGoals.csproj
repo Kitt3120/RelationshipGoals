@@ -105,6 +105,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Boot\BootAnimation.cs" />
+    <Compile Include="FormHeart.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormHeart.Designer.cs">
+      <DependentUpon>FormHeart.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormRelationshipGoals.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -128,7 +135,12 @@
     <Compile Include="IO\IOHandlers.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AssetService\AssetFolder.cs" />
+    <Compile Include="Services\AssetService\AssetService.cs" />
     <Compile Include="SQL\SQLHandler.cs" />
+    <EmbeddedResource Include="FormHeart.resx">
+      <DependentUpon>FormHeart.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormRelationshipGoals.resx">
       <DependentUpon>FormRelationshipGoals.cs</DependentUpon>
     </EmbeddedResource>
@@ -152,6 +164,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -169,6 +182,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="Assets\Boot\heart.png" />
     <Content Include="Assets\Ico\icon_image.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -23,16 +23,21 @@ namespace RelationshipGoals
         {
             new Task(async () =>
             {
-                double opacity;
-                for (opacity = 0.01; opacity <= 1.0; opacity += 0.01)
+                try
                 {
-                    Invoke(new MethodInvoker(() => Opacity = opacity));
-                    await Task.Delay(1);
-                }
+                    double opacity;
+                    for (opacity = 0.01; opacity <= 1.0; opacity += 0.01)
+                    {
+                        Invoke(new MethodInvoker(() => Opacity = opacity));
+                        await Task.Delay(1);
+                    }
 
-                //Needed cause loop ends with 0,990000000000001 on some machines
-                opacity = 1.0;
-                Invoke(new MethodInvoker(() => Opacity = opacity));
+                    //Needed cause loop ends with 0,990000000000001 on some machines
+                    opacity = 1.0;
+                    Invoke(new MethodInvoker(() => Opacity = opacity));
+                }
+                catch (InvalidOperationException)
+                { }
             }).Start();
 
             Activate();

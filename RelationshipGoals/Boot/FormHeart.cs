@@ -50,19 +50,26 @@ namespace RelationshipGoals.Boot
             int swingRange = _random.Next(75, 200);
 
             MethodInvoker applyLocationInvoker = new MethodInvoker(ApplyLocation);
-            while (_location.Y + Height >= 0)
+            try
             {
-                _speed += 0.5D;
+                while (_location.Y + Height >= 0)
+                {
+                    _speed += 0.5D;
 
-                _location.Y -= (int)_speed;
-                _xOffset = (int)(Math.Sin(_ticksLived * swingSpeed) * swingRange);
-                Invoke(applyLocationInvoker);
+                    _location.Y -= (int)_speed;
+                    _xOffset = (int)(Math.Sin(_ticksLived * swingSpeed) * swingRange);
+                    Invoke(applyLocationInvoker);
 
-                _ticksLived += 1;
-                await Task.Delay(1);
+                    _ticksLived += 1;
+                    await Task.Delay(1);
+                }
+
+                Invoke(new MethodInvoker(Close));
             }
-
-            Invoke(new MethodInvoker(Close));
+            catch (ObjectDisposedException)
+            { }
+            catch (InvalidOperationException)
+            { }
         }
 
         private void ApplyLocation() => SetDesktopLocation(_location.X + _xOffset, _location.Y);

@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://github.com/Kitt3120/RelationshipGoals/blob/master/RelationshipGoals/Assets/Boot/heart.png?raw=true" width="256" height="256" title="Relationship Goals Heart Logo">
+</p>
+
 # RelationshipGoals
  Little program I made for my girlfriend originally for Valentines Day, but as I couldn't finish it in time, I made it for her next birthday after ❤
  

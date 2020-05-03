@@ -18,7 +18,7 @@ namespace RelationshipGoals.Goals
         public Dictionary<int, Goal>.KeyCollection Keys { get => _goals.Keys; }
         public Dictionary<int, Goal>.ValueCollection Values { get => _goals.Values; }
 
-        public bool FullyUnlocked { get { return LastUnlocked() == _goals.Values.LastOrDefault(); } }
+        public bool FullyUnlocked { get { return LastUnlockedPosition() == _goals.Keys.LastOrDefault(); } }
 
         public GoalTree(int id, string title, string description)
         {
@@ -47,7 +47,7 @@ namespace RelationshipGoals.Goals
 
         public int MinPosition() => _goals.Select(pair => pair.Key).Min();
 
-        public int MaxPosition() => _goals.Select(pair => pair.Key).Max();
+        public int MaxPosition() => _goals.Keys.Max();
 
         public Goal At(int index) => _goals[index];
 
@@ -77,10 +77,13 @@ namespace RelationshipGoals.Goals
             return keysUnlocked.Max();
         }
 
-        public Goal NextToUnlock() => At(NextToUnlockPosition());
+        public Goal NextToUnlock() => (FullyUnlocked ? null : At(NextToUnlockPosition()));
 
         public int NextToUnlockPosition()
         {
+            if (FullyUnlocked)
+                return -1;
+
             List<int> possibleNexts = _goals.Where(pair => pair.Key > LastUnlockedPosition()).Select(pair => pair.Key).ToList();
             if (possibleNexts.Count == 0)
                 return 0;

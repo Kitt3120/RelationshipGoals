@@ -125,8 +125,11 @@
       <DependentUpon>FormSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="Goals\Goal.cs" />
+    <Compile Include="Goals\GoalCell.cs" />
     <Compile Include="Goals\GoalManager.cs" />
     <Compile Include="Goals\GoalTree.cs" />
+    <Compile Include="Goals\GoalTreeColumn.cs" />
+    <Compile Include="Goals\GoalTreeHeaderCell.cs" />
     <Compile Include="IO\DataProvider\IDataProvider.cs" />
     <Compile Include="IO\DataProvider\Implementation\FileDataProvider.cs" />
     <Compile Include="IO\DataProvider\Implementation\WebContentProvider.cs" />

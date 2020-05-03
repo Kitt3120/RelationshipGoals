@@ -52,14 +52,15 @@ namespace RelationshipGoals
             GoalManager goalManager = Program.ServiceProvider.GetService<GoalManager>();
 
             //Max amount of rows that need to be generated. X amount does not have to be calculated before creating the table.
-            int y = goalManager.GoalTrees.Max(goalTree => goalTree.Keys.Max());
+            int y = goalManager.GoalTrees.Max(goalTree => goalTree.MaxPosition());
 
             //We can't create the rows before at least 1 column has been added, so we have to add on the first loop iteration after adding the first column.
             bool first = true;
 
             foreach (GoalTree goalTree in goalManager.GoalTrees)
             {
-                int columnId = dataGridView.Columns.Add(goalTree.ID.ToString(), $"{goalTree.Title} ({goalTree.Values.Where(value => value.Unlocked).Count()}/{goalTree.Count})");
+                //int columnId = dataGridView.Columns.Add(goalTree.ID.ToString(), $"{goalTree.Title} ({goalTree.Values.Where(value => value.Unlocked).Count()}/{goalTree.Count})");
+                int columnId = dataGridView.Columns.Add(new GoalTreeColumn(goalTree));
 
                 if (first)
                 {
@@ -69,27 +70,45 @@ namespace RelationshipGoals
                     first = false;
                 }
 
-                foreach (KeyValuePair<int, Goal> pair in goalTree.Ordered().Where(pair => pair.Key <= goalTree.NextToUnlockPosition()))
+                IEnumerable<KeyValuePair<int, Goal>> filtered = (goalTree.FullyUnlocked ? goalTree.Ordered() : goalTree.Ordered().Where(pair => pair.Key <= goalTree.NextToUnlockPosition()));
+
+                foreach (KeyValuePair<int, Goal> pair in filtered)
                 {
                     Color cellBackground = Color.Green;
                     if (pair.Key == goalTree.NextToUnlockPosition())
                         cellBackground = Color.Orange;
-                    dataGridView.Rows[pair.Key].Cells[columnId] = new DataGridViewTextBoxCell() { Value = $"{pair.Value.Title} ({pair.Value.PointsCurrent}/{pair.Value.PointsToUnlock})" };
-                    dataGridView.Rows[pair.Key].Cells[columnId].Style.BackColor = cellBackground;
+
+                    GoalCell cell = new GoalCell(pair.Value);
+                    cell.Style.BackColor = cellBackground;
+                    dataGridView.Rows[pair.Key].Cells[columnId] = cell;
                 }
             }
 
             foreach (DataGridViewRow row in dataGridView.Rows)
             {
-                foreach (DataGridViewTextBoxCell cell in row.Cells)
+                for (int i = 0; i < row.Cells.Count; i++)
                 {
-                    if (cell.Value == null)
+                    if (typeof(DataGridViewTextBoxCell).IsAssignableFrom(row.Cells[i].GetType()))
                     {
-                        cell.Style.BackColor = Color.LightGray;
-                        cell.Style.SelectionBackColor = Color.LightGray;
+                        DataGridViewTextBoxCell cell = (DataGridViewTextBoxCell)row.Cells[i];
+                        cell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+                        if (row.Cells[i].Value == null)
+                        {
+                            cell.Style.BackColor = Color.LightGray;
+                            cell.Style.SelectionBackColor = Color.LightGray;
+                            cell.Style.ForeColor = Color.Black;
+                            cell.Style.SelectionForeColor = Color.Black;
+                            cell.Value = "-";
+                            cell.ToolTipText = $"This is an empty slot, a goal is missing here.{Environment.NewLine}Relationship Goals will skip this cell.";
+                        }
                     }
                 }
             }
+        }
+
+        private void dataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
         }
     }
 }

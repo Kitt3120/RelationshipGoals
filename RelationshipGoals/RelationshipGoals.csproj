@@ -106,10 +106,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Boot\BootAnimation.cs" />
-    <Compile Include="FormHeart.cs">
+    <Compile Include="Boot\FormHeart.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormHeart.Designer.cs">
+    <Compile Include="Boot\FormHeart.Designer.cs">
       <DependentUpon>FormHeart.cs</DependentUpon>
     </Compile>
     <Compile Include="FormRelationshipGoals.cs">
@@ -138,7 +138,7 @@
     <Compile Include="Services\AssetService\AssetFolder.cs" />
     <Compile Include="Services\AssetService\AssetService.cs" />
     <Compile Include="SQL\SQLHandler.cs" />
-    <EmbeddedResource Include="FormHeart.resx">
+    <EmbeddedResource Include="Boot\FormHeart.resx">
       <DependentUpon>FormHeart.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormRelationshipGoals.resx">

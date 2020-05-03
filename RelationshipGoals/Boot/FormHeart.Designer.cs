@@ -1,4 +1,4 @@
-﻿namespace RelationshipGoals
+﻿namespace RelationshipGoals.Boot
 {
     partial class FormHeart
     {

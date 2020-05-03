@@ -11,8 +11,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace RelationshipGoals
+namespace RelationshipGoals.Boot
 {
+    //TODO: Replace with FormHearts, a maximized, transparent form and only use Graphics object to render hearts
     public partial class FormHeart : Form
     {
         private static Image _heartImage;

@@ -18,7 +18,7 @@ namespace RelationshipGoals.Goals
         public Dictionary<int, Goal>.KeyCollection Keys { get => _goals.Keys; }
         public Dictionary<int, Goal>.ValueCollection Values { get => _goals.Values; }
 
-        public bool FullyUnlocked { get { return LastUnlockedPosition() == _goals.Keys.LastOrDefault(); } }
+        public bool FullyUnlocked { get { return _goals.Values.All(goal => goal.Unlocked); } }
 
         public GoalTree(int id, string title, string description)
         {

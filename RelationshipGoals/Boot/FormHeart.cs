@@ -1,5 +1,4 @@
 ﻿using RelationshipGoals.Services.AssetService;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,11 +12,9 @@ using System.Windows.Forms;
 
 namespace RelationshipGoals.Boot
 {
-    //TODO: Replace with FormHearts, a maximized, transparent form and only use Graphics object to render hearts
+    //TODO: Replace with FormHearts, a maximized, transparent form and only use Graphics to render hearts
     public partial class FormHeart : Form
     {
-        private static Image _heartImage;
-
         private Random _random;
         private int _ticksLived;
         private double _speed;
@@ -34,10 +31,7 @@ namespace RelationshipGoals.Boot
             _animationTask = new Task(AnimationTick);
             _xOffset = 0;
 
-            if (_heartImage == null)
-                _heartImage = Image.FromFile(Program.ServiceProvider.GetService<AssetService>().FindSub("Boot").FilterFiles("heart.png")[0]);
-
-            pictureBoxHeart.Image = _heartImage;
+            pictureBoxHeart.Image = BootAnimation.HeartImage;
 
             Rectangle screenBounds = Screen.FromControl(this).Bounds;
             _location = new Point(_random.Next(Width, screenBounds.Width) - Width, screenBounds.Height);

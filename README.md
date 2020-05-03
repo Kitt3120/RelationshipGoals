@@ -3,7 +3,7 @@
 </p>
 
 # RelationshipGoals
- Little program I made for my girlfriend originally for Valentines Day, but as I couldn't finish it in time, I made it for her next birthday after ❤
+ Little program I made for my girlfriend originally for Valentines Day, but as I couldn't finish it in time, I made it for her next birthday ❤
  
  ## Idea
  The program is based on the simple idea of having achievements (Goals) on a point-based system (Current points and points to unlock).

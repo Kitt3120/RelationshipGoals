@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace RelationshipGoals.Goals
+namespace RelationshipGoals.Goal
 {
-    class GoalTreeColumn : DataGridViewTextBoxColumn
+    internal class GoalTreeColumn : DataGridViewTextBoxColumn
     {
         public GoalTree GoalTree { get; private set; }
 

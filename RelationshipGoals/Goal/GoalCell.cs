@@ -1,11 +1,14 @@
-﻿using System;
+﻿using RelationshipGoals.Services.AssetService;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing;
 
-namespace RelationshipGoals.Goals
+namespace RelationshipGoals.Goal
 {
     internal class GoalCell : DataGridViewTextBoxCell
     {
@@ -15,13 +18,18 @@ namespace RelationshipGoals.Goals
         {
             Goal = goal;
             Value = $"{goal.Title} ({goal.PointsCurrent}/{goal.PointsToUnlock})";
+            Style.BackColor = (goal.Unlocked ? Color.Violet : Color.Plum);
             ToolTipText = goal.Description;
         }
 
         protected override void OnDoubleClick(DataGridViewCellEventArgs e)
         {
             base.OnDoubleClick(e);
-            MessageBox.Show("Clicked Goal \"" + Goal.Title + "\"");
+            FormEditGoal formEditGoal = new FormEditGoal(Goal);
+            formEditGoal.ShowDialog();
+
+            if (formEditGoal.NeedsRefresh)
+                Program.ServiceProvider.GetService<GoalManager>().FillGrid(DataGridView);
         }
     }
 }

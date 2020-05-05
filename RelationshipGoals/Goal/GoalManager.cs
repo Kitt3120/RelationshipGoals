@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace RelationshipGoals.Goals
+namespace RelationshipGoals.Goal
 {
     internal class GoalManager
     {
@@ -61,7 +61,7 @@ namespace RelationshipGoals.Goals
                 int goalId = int.Parse(row.ItemArray[1].ToString());
                 int position = int.Parse(row.ItemArray[2].ToString());
 
-                newGoalTrees.Where(tree => tree.ID == goalTreeId).FirstOrDefault().Insert(position, newGoals.Where(goal => goal.ID == goalId).FirstOrDefault());
+                newGoalTrees.Where(tree => tree.ID == goalTreeId).FirstOrDefault().Insert(position, newGoals.Where(goal => goal.ID == goalId).FirstOrDefault(), false);
             }
 
             Goals = newGoals;
@@ -106,7 +106,7 @@ namespace RelationshipGoals.Goals
                 int goalId = int.Parse(row.ItemArray[1].ToString());
                 int position = int.Parse(row.ItemArray[2].ToString());
 
-                newGoalTrees.Where(tree => tree.ID == goalTreeId).FirstOrDefault().Insert(position, newGoals.Where(goal => goal.ID == goalId).FirstOrDefault());
+                newGoalTrees.Where(tree => tree.ID == goalTreeId).FirstOrDefault().Insert(position, newGoals.Where(goal => goal.ID == goalId).FirstOrDefault(), false);
             }
 
             Goals = newGoals;
@@ -124,6 +124,7 @@ namespace RelationshipGoals.Goals
             //We can't create the rows before at least 1 column has been added, so we have to add on the first loop iteration after adding the first column.
             bool first = true;
 
+            //Fill with Goal data
             foreach (GoalTree goalTree in GoalTrees)
             {
                 //int columnId = dataGridView.Columns.Add(goalTree.ID.ToString(), $"{goalTree.Title} ({goalTree.Values.Where(value => value.Unlocked).Count()}/{goalTree.Count})");
@@ -140,17 +141,10 @@ namespace RelationshipGoals.Goals
                 IEnumerable<KeyValuePair<int, Goal>> filtered = (goalTree.FullyUnlocked ? goalTree.Ordered() : goalTree.Ordered().Where(pair => pair.Key <= goalTree.NextToUnlockPosition()));
 
                 foreach (KeyValuePair<int, Goal> pair in filtered)
-                {
-                    Color cellBackground = Color.Green;
-                    if (pair.Key == goalTree.NextToUnlockPosition())
-                        cellBackground = Color.Orange;
-
-                    GoalCell cell = new GoalCell(pair.Value);
-                    cell.Style.BackColor = cellBackground;
-                    dataGridView.Rows[pair.Key].Cells[columnId] = cell;
-                }
+                    dataGridView.Rows[pair.Key].Cells[columnId] = new GoalCell(pair.Value);
             }
 
+            //Manage empty cells
             foreach (DataGridViewRow row in dataGridView.Rows)
             {
                 for (int i = 0; i < row.Cells.Count; i++)
@@ -162,10 +156,10 @@ namespace RelationshipGoals.Goals
 
                         if (row.Cells[i].Value == null)
                         {
-                            cell.Style.BackColor = Color.LightGray;
-                            cell.Style.SelectionBackColor = Color.LightGray;
-                            cell.Style.ForeColor = Color.Black;
-                            cell.Style.SelectionForeColor = Color.Black;
+                            cell.Style.BackColor = Color.SlateBlue;
+                            cell.Style.SelectionBackColor = Color.SlateBlue;
+                            cell.Style.ForeColor = Color.White;
+                            cell.Style.SelectionForeColor = Color.White;
                             cell.Value = "-";
                             cell.ToolTipText = $"This is an empty slot, a goal is missing here.{Environment.NewLine}Relationship Goals will skip this cell.";
                         }

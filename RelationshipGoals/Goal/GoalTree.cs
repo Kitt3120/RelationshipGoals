@@ -1,33 +1,65 @@
-﻿using System.Collections.Generic;
+﻿using RelationshipGoals.SQL;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace RelationshipGoals.Goals
+namespace RelationshipGoals.Goal
 {
-    internal class GoalTree
+    public class GoalTree
     {
         public int ID { get; }
-        public string Title { get; }
-        public string Description { get; }
+        private string _title;
+
+        public string Title
+        {
+            get { return _title; }
+            set
+            {
+                if (_title != value)
+                {
+                    SQLHandler.Current.SendQuery($"update GoalTree set Title = '{value}' where ID = {ID};");
+                    _title = value;
+                }
+            }
+        }
+
+        private string _description;
+
+        public string Description
+        {
+            get { return _description; }
+            set
+            {
+                if (_description != value)
+                {
+                    SQLHandler.Current.SendQuery($"update GoalTree set Description = '{value}' where ID = {ID};");
+                    _description = value;
+                }
+            }
+        }
 
         private Dictionary<int, Goal> _goals;
 
         public Goal this[int position] { get => At(position); set => Insert(position, value); }
 
         public int Count { get => _goals.Count; }
-        public Dictionary<int, Goal>.KeyCollection Keys { get => _goals.Keys; }
-        public Dictionary<int, Goal>.ValueCollection Values { get => _goals.Values; }
 
         public bool FullyUnlocked { get { return _goals.Values.All(goal => goal.Unlocked); } }
 
         public GoalTree(int id, string title, string description)
         {
             ID = id;
-            Title = title;
-            Description = description;
+            _title = title;
+            _description = description;
 
             _goals = new Dictionary<int, Goal>();
         }
+
+        public int[] GetKeys() => _goals.Keys.ToArray();
+
+        public Goal[] GetValues() => _goals.Values.ToArray();
+
+        public KeyValuePair<int, Goal>[] GetPairs() => _goals.ToArray();
 
         //Inserts goal at next available free position
         public int Add(Goal goal)
@@ -37,11 +69,20 @@ namespace RelationshipGoals.Goals
             return nextFreePosition;
         }
 
-        public void Insert(int position, Goal goal) => _goals[position] = goal;
+        public void Insert(int position, Goal goal, bool sendQuery = true)
+        {
+            if (sendQuery)
+                SQLHandler.Current.SendQuery($"insert into GoalOccurence(GoalTreeID, GoalID, Position) values({ID}, {goal.ID}, {position})");
+            _goals[position] = goal;
+        }
 
         public void Remove(Goal goal) => RemoveAt(PositionOf(goal));
 
-        public void RemoveAt(int position) => _goals.Remove(position);
+        public void RemoveAt(int position)
+        {
+            SQLHandler.Current.SendQuery($"delete from GoalOccurence where GoalTreeID = {ID} and Position = {position}");
+            _goals.Remove(position);
+        }
 
         public int PositionOf(Goal goal) => _goals.Where(pair => pair.Value == goal).FirstOrDefault().Key;
 

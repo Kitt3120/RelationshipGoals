@@ -112,6 +112,18 @@
     <Compile Include="Boot\FormHeart.Designer.cs">
       <DependentUpon>FormHeart.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormEditGoal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormEditGoal.Designer.cs">
+      <DependentUpon>FormEditGoal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormEditGoalTree.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormEditGoalTree.Designer.cs">
+      <DependentUpon>FormEditGoalTree.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormRelationshipGoals.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -124,12 +136,12 @@
     <Compile Include="FormSettings.Designer.cs">
       <DependentUpon>FormSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Goals\Goal.cs" />
-    <Compile Include="Goals\GoalCell.cs" />
-    <Compile Include="Goals\GoalManager.cs" />
-    <Compile Include="Goals\GoalTree.cs" />
-    <Compile Include="Goals\GoalTreeColumn.cs" />
-    <Compile Include="Goals\GoalTreeHeaderCell.cs" />
+    <Compile Include="Goal\Goal.cs" />
+    <Compile Include="Goal\GoalCell.cs" />
+    <Compile Include="Goal\GoalManager.cs" />
+    <Compile Include="Goal\GoalTree.cs" />
+    <Compile Include="Goal\GoalTreeColumn.cs" />
+    <Compile Include="Goal\GoalTreeHeaderCell.cs" />
     <Compile Include="IO\DataProvider\IDataProvider.cs" />
     <Compile Include="IO\DataProvider\Implementation\FileDataProvider.cs" />
     <Compile Include="IO\DataProvider\Implementation\WebContentProvider.cs" />
@@ -143,6 +155,12 @@
     <Compile Include="SQL\SQLHandler.cs" />
     <EmbeddedResource Include="Boot\FormHeart.resx">
       <DependentUpon>FormHeart.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormEditGoal.resx">
+      <DependentUpon>FormEditGoal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormEditGoalTree.resx">
+      <DependentUpon>FormEditGoalTree.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormRelationshipGoals.resx">
       <DependentUpon>FormRelationshipGoals.cs</DependentUpon>

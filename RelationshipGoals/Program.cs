@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using RelationshipGoals.Boot;
-using RelationshipGoals.Goals;
+using RelationshipGoals.Goal;
 using RelationshipGoals.Properties;
 using RelationshipGoals.Services.AssetService;
 using RelationshipGoals.SQL;
@@ -18,10 +18,6 @@ namespace RelationshipGoals
     {
         public static IServiceProvider ServiceProvider { get; private set; }
 
-        public delegate void StartedHandler();
-
-        public static event StartedHandler Ready;
-
         /// <summary>
         /// Der Haupteinstiegspunkt für die Anwendung.
         /// </summary>
@@ -31,23 +27,17 @@ namespace RelationshipGoals
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            FormRelationshipGoals formRelationshipGoals = new FormRelationshipGoals();
-            formRelationshipGoals.Show();
             if (!SQLHandler.Check(Settings.Default.SQL_Server_Address, Settings.Default.SQL_Server_Schema, Settings.Default.SQL_Server_Login, Settings.Default.SQL_Server_Password))
             {
-                MessageBox.Show(formRelationshipGoals, "Your SQL settings are not valid! Please provide valid SQL settings in the following window.");
-                FormSettings formSettings = new FormSettings();
-                formSettings.ShowDialog(formRelationshipGoals);
-                while (formSettings.Visible) //Wait until valid settings have been provided before building ServiceProvider
-                    Thread.Sleep(1000);
+                MessageBox.Show("Your SQL settings are invalid! Please provide valid SQL settings in the following window.", "Invalid SQL settings", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                new FormSettings().ShowDialog(); //Blocks thread until finished
             }
             SQLHandler.Use(new SQLHandler(Settings.Default.SQL_Server_Address, Settings.Default.SQL_Server_Schema, Settings.Default.SQL_Server_Login, Settings.Default.SQL_Server_Password));
 
             BuildServiceProvider();
 
             BootAnimation.Play();
-            Ready.Invoke();
-            Application.Run(formRelationshipGoals);
+            Application.Run(new FormRelationshipGoals());
         }
 
         private static void BuildServiceProvider()

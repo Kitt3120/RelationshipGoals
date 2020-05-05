@@ -72,8 +72,10 @@
             // 
             this.comboBoxSqlSchema.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxSqlSchema.BackColor = System.Drawing.Color.Plum;
             this.comboBoxSqlSchema.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxSqlSchema.Enabled = false;
+            this.comboBoxSqlSchema.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.comboBoxSqlSchema.FormattingEnabled = true;
             this.comboBoxSqlSchema.Location = new System.Drawing.Point(6, 134);
             this.comboBoxSqlSchema.Name = "comboBoxSqlSchema";
@@ -94,17 +96,21 @@
             // 
             this.buttonSqlCheck.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonSqlCheck.BackColor = System.Drawing.Color.Plum;
+            this.buttonSqlCheck.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonSqlCheck.Location = new System.Drawing.Point(111, 97);
             this.buttonSqlCheck.Name = "buttonSqlCheck";
             this.buttonSqlCheck.Size = new System.Drawing.Size(75, 23);
             this.buttonSqlCheck.TabIndex = 8;
             this.buttonSqlCheck.Text = "Check";
-            this.buttonSqlCheck.UseVisualStyleBackColor = true;
+            this.buttonSqlCheck.UseVisualStyleBackColor = false;
             this.buttonSqlCheck.Click += new System.EventHandler(this.buttonSqlCheck_Click);
             // 
             // textBoxSqlPassword
             // 
             this.textBoxSqlPassword.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxSqlPassword.BackColor = System.Drawing.Color.Plum;
+            this.textBoxSqlPassword.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxSqlPassword.Location = new System.Drawing.Point(151, 71);
             this.textBoxSqlPassword.Name = "textBoxSqlPassword";
             this.textBoxSqlPassword.Size = new System.Drawing.Size(141, 20);
@@ -122,6 +128,8 @@
             // 
             // textBoxSqlLogin
             // 
+            this.textBoxSqlLogin.BackColor = System.Drawing.Color.Plum;
+            this.textBoxSqlLogin.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxSqlLogin.Location = new System.Drawing.Point(6, 71);
             this.textBoxSqlLogin.Name = "textBoxSqlLogin";
             this.textBoxSqlLogin.Size = new System.Drawing.Size(141, 20);
@@ -139,6 +147,8 @@
             // textBoxSqlPort
             // 
             this.textBoxSqlPort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxSqlPort.BackColor = System.Drawing.Color.Plum;
+            this.textBoxSqlPort.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxSqlPort.Location = new System.Drawing.Point(253, 32);
             this.textBoxSqlPort.Name = "textBoxSqlPort";
             this.textBoxSqlPort.Size = new System.Drawing.Size(42, 20);
@@ -158,6 +168,8 @@
             // 
             this.textBoxSqlAddress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxSqlAddress.BackColor = System.Drawing.Color.Plum;
+            this.textBoxSqlAddress.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxSqlAddress.Location = new System.Drawing.Point(6, 32);
             this.textBoxSqlAddress.Name = "textBoxSqlAddress";
             this.textBoxSqlAddress.Size = new System.Drawing.Size(241, 20);
@@ -175,19 +187,22 @@
             // buttonSave
             // 
             this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonSave.BackColor = System.Drawing.Color.Plum;
             this.buttonSave.Enabled = false;
+            this.buttonSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonSave.Location = new System.Drawing.Point(247, 278);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 23);
             this.buttonSave.TabIndex = 1;
             this.buttonSave.Text = "Save";
-            this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.UseVisualStyleBackColor = false;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // FormSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Thistle;
             this.ClientSize = new System.Drawing.Size(334, 336);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.groupBoxSettingsSQL);

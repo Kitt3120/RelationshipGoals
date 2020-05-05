@@ -83,7 +83,7 @@ namespace RelationshipGoals.SQL
             {
                 connection.Open();
 
-                MySqlCommand command = new MySqlCommand($"{query}", connection);
+                MySqlCommand command = new MySqlCommand(query, connection);
 
                 if (values != null)
                     foreach (var keyValuePair in values)
@@ -103,7 +103,7 @@ namespace RelationshipGoals.SQL
             {
                 await connection.OpenAsync();
 
-                MySqlCommand command = new MySqlCommand($"{query}", connection);
+                MySqlCommand command = new MySqlCommand(query, connection);
 
                 if (values != null)
                     foreach (var keyValuePair in values)
@@ -123,7 +123,7 @@ namespace RelationshipGoals.SQL
             {
                 connection.Open();
 
-                MySqlCommand command = new MySqlCommand($"{query}", connection);
+                MySqlCommand command = new MySqlCommand(query, connection);
                 command.Prepare();
 
                 if (values != null)
@@ -140,7 +140,7 @@ namespace RelationshipGoals.SQL
             {
                 await connection.OpenAsync();
 
-                MySqlCommand command = new MySqlCommand($"{query}", connection);
+                MySqlCommand command = new MySqlCommand(query, connection);
                 command.Prepare();
 
                 if (values != null)

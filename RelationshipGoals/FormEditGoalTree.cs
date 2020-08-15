@@ -6,6 +6,8 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.Remoting.Channels;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,16 +18,10 @@ namespace RelationshipGoals
     {
         public GoalTree GoalTree { get; private set; }
 
-        /// <summary>
-        /// Whether or not the DataGridView has to be refreshed because a value has changed
-        /// </summary>
-        public bool NeedsRefresh { get; private set; }
-
         public FormEditGoalTree(GoalTree goalTree)
         {
             InitializeComponent();
             GoalTree = goalTree;
-            NeedsRefresh = false;
         }
 
         private void FormEditGoalTree_Load(object sender, EventArgs e)
@@ -40,6 +36,7 @@ namespace RelationshipGoals
         {
             dataGridView.Rows.Clear();
             dataGridView.Columns.Clear();
+            dataGridView.Controls.Clear();
 
             dataGridView.Columns.Add("position", "Position");
             dataGridView.Columns.Add("goal", "Goal");
@@ -54,8 +51,57 @@ namespace RelationshipGoals
                 dataGridView[1, pair.Key] = new DataGridViewTextBoxCell() { Value = pair.Value.Title };
 
                 Panel controlPanel = new Panel();
-                controlPanel.Controls.Add(new Button() { Text = "up", AutoSize = true, Anchor = AnchorStyles.Left, Dock = DockStyle.Left, FlatStyle = FlatStyle.Flat });
-                controlPanel.Controls.Add(new Button() { Text = "down", AutoSize = true, Anchor = AnchorStyles.Right, Dock = DockStyle.Right, FlatStyle = FlatStyle.Flat });
+
+                Button upButton;
+                Button downButton;
+
+                upButton = new Button()
+                {
+                    Text = "Up",
+                    AutoSize = true,
+                    Anchor = AnchorStyles.Left,
+                    Dock = DockStyle.Left,
+                    FlatStyle = FlatStyle.Flat
+                };
+
+                downButton = new Button()
+                {
+                    Text = "Down",
+                    AutoSize = true,
+                    Anchor = AnchorStyles.Right,
+                    Dock = DockStyle.Right,
+                    FlatStyle = FlatStyle.Flat
+                };
+
+                upButton.Click += (sender, eventArgs) =>
+                {
+                    GoalTree.Swap(pair.Key, pair.Key - 1);
+                    controlPanel.Controls.Remove(upButton);
+                    controlPanel.Controls.Remove(downButton);
+                    dataGridView.Controls.Remove(controlPanel);
+                    dataGridView.Controls.Remove(controlPanel);
+                    upButton.Dispose();
+                    downButton.Dispose();
+                    controlPanel.Dispose();
+                    controlPanel = null; //For event
+                    LoadGoals();
+                };
+
+                downButton.Click += (sender, eventArgs) =>
+                {
+                    GoalTree.Swap(pair.Key, pair.Key + 1);
+                    controlPanel.Controls.Remove(upButton);
+                    controlPanel.Controls.Remove(downButton);
+                    dataGridView.Controls.Remove(controlPanel);
+                    upButton.Dispose();
+                    downButton.Dispose();
+                    controlPanel.Dispose();
+                    controlPanel = null; //So SizeChanged Event does get handled below
+                    LoadGoals();
+                };
+
+                controlPanel.Controls.Add(upButton);
+                controlPanel.Controls.Add(downButton);
                 dataGridView.Controls.Add(controlPanel);
 
                 Rectangle displayRectangle = dataGridView.GetCellDisplayRectangle(2, pair.Key, true);
@@ -64,18 +110,14 @@ namespace RelationshipGoals
 
                 dataGridView.SizeChanged += (sender, eventArgs) =>
                 {
-                    displayRectangle = dataGridView.GetCellDisplayRectangle(2, pair.Key, true);
-                    controlPanel.Location = displayRectangle.Location;
-                    controlPanel.Size = displayRectangle.Size;
+                    if (controlPanel != null)
+                    {
+                        displayRectangle = dataGridView.GetCellDisplayRectangle(2, pair.Key, true);
+                        controlPanel.Location = displayRectangle.Location;
+                        controlPanel.Size = displayRectangle.Size;
+                    }
                 };
             }
-        }
-
-        private void FormEditGoalTree_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (!NeedsRefresh)
-                if (MessageBox.Show("Close without saving?", "Close GoalTree editing", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.No)
-                    e.Cancel = true;
         }
 
         private void buttonUpdate_Click(object sender, EventArgs e)
@@ -85,7 +127,6 @@ namespace RelationshipGoals
             try
             {
                 GoalTree.Title = textBoxTitle.Text.Trim();
-                NeedsRefresh = true; //As soon as the first query goes through, a UI refresh is needed
                 GoalTree.Description = textBoxDescription.Text.Trim();
             }
             catch (MySqlException)

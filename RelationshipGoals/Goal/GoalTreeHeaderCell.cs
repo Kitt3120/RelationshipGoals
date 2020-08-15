@@ -26,9 +26,7 @@ namespace RelationshipGoals.Goal
             base.OnDoubleClick(e);
             FormEditGoalTree formEditGoalTree = new FormEditGoalTree(GoalTree);
             formEditGoalTree.ShowDialog();
-
-            if (formEditGoalTree.NeedsRefresh)
-                Program.ServiceProvider.GetService<GoalManager>().FillGrid(DataGridView);
+            Program.ServiceProvider.GetService<GoalManager>().FillGrid(DataGridView);
         }
     }
 }

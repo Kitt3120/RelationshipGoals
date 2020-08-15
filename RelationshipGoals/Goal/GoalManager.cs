@@ -118,6 +118,9 @@ namespace RelationshipGoals.Goal
             dataGridView.Rows.Clear();
             dataGridView.Columns.Clear();
 
+            if (GoalTrees.Count == 0)
+                return;
+
             //Max amount of rows that need to be generated. X amount does not have to be calculated before creating the table.
             int y = GoalTrees.Max(goalTree => goalTree.MaxPosition());
 

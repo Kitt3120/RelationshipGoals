@@ -24,8 +24,6 @@ namespace RelationshipGoals
             RefreshDataGridView();
         }
 
-        private void RefreshDataGridView() => Program.ServiceProvider.GetService<GoalManager>().FillGrid(dataGridView);
-
         private void FadeIn() => new Task(async () =>
         {
             try
@@ -45,5 +43,7 @@ namespace RelationshipGoals
             catch (InvalidOperationException) //Should only happen when closing the program while animation is running
             { }
         }).Start();
+
+        private void RefreshDataGridView() => Program.ServiceProvider.GetService<GoalManager>().FillGrid(dataGridView);
     }
 }

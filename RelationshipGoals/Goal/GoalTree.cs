@@ -8,6 +8,7 @@ namespace RelationshipGoals.Goal
     public class GoalTree
     {
         public int ID { get; }
+
         private string _title;
 
         public string Title
@@ -17,7 +18,7 @@ namespace RelationshipGoals.Goal
             {
                 if (_title != value)
                 {
-                    SQLHandler.Current.SendQuery($"update GoalTree set Title = '{value}' where ID = {ID};");
+                    SQLHandler.Current.SendQuery($"update GoalTree set Title = '{value}' where ID = {ID}");
                     _title = value;
                 }
             }
@@ -32,7 +33,7 @@ namespace RelationshipGoals.Goal
             {
                 if (_description != value)
                 {
-                    SQLHandler.Current.SendQuery($"update GoalTree set Description = '{value}' where ID = {ID};");
+                    SQLHandler.Current.SendQuery($"update GoalTree set Description = '{value}' where ID = {ID}");
                     _description = value;
                 }
             }
@@ -80,17 +81,55 @@ namespace RelationshipGoals.Goal
 
         public void RemoveAt(int position)
         {
+            if (At(position) == null)
+                return;
+
             SQLHandler.Current.SendQuery($"delete from GoalOccurence where GoalTreeID = {ID} and Position = {position}");
             _goals.Remove(position);
         }
 
+        public void Swap(int position, int positionWith)
+        {
+            if (positionWith < 0)
+                return;
+
+            Goal goal = At(position);
+
+            if (goal == null)
+                return;
+
+            Goal otherGoal = At(positionWith);
+
+            _goals.Remove(position);
+            RemoveAt(positionWith);
+            _goals.Add(positionWith, goal);
+            SQLHandler.Current.SendQuery($"update GoalOccurence set Position = {positionWith} where GoalTreeID = {ID} and Position = {position}");
+
+            if (otherGoal != null)
+                Insert(position, otherGoal);
+        }
+
         public int PositionOf(Goal goal) => _goals.Where(pair => pair.Value == goal).FirstOrDefault().Key;
 
-        public int MinPosition() => _goals.Select(pair => pair.Key).Min();
+        public int MinPosition()
+        {
+            Dictionary<int, Goal>.KeyCollection keys = _goals.Keys;
+            if (keys.Count == 0)
+                return 0;
 
-        public int MaxPosition() => _goals.Keys.Max();
+            return _goals.Keys.Min();
+        }
 
-        public Goal At(int index) => _goals[index];
+        public int MaxPosition()
+        {
+            Dictionary<int, Goal>.KeyCollection keys = _goals.Keys;
+            if (keys.Count == 0)
+                return 0;
+
+            return _goals.Keys.Max();
+        }
+
+        public Goal At(int index) => _goals.Where(pair => pair.Key == index).Select(pair => pair.Value).FirstOrDefault();
 
         public Goal Before(Goal goal)
         {
@@ -112,10 +151,9 @@ namespace RelationshipGoals.Goal
 
         public int LastUnlockedPosition()
         {
-            List<int> keysUnlocked = _goals.Where(pair => pair.Value.Unlocked).Select(pair => pair.Key).ToList();
-            if (keysUnlocked.Count == 0)
+            if (_goals.Where(pair => pair.Value.Unlocked).Count() == 0)
                 return -1;
-            return keysUnlocked.Max();
+            return Ordered().Where(pair => pair.Value.Unlocked).Last().Key;
         }
 
         public Goal NextToUnlock() => (FullyUnlocked ? null : At(NextToUnlockPosition()));
@@ -125,10 +163,11 @@ namespace RelationshipGoals.Goal
             if (FullyUnlocked)
                 return -1;
 
-            List<int> possibleNexts = _goals.Where(pair => pair.Key > LastUnlockedPosition()).Select(pair => pair.Key).ToList();
-            if (possibleNexts.Count == 0)
-                return 0;
-            return possibleNexts.Min();
+            return Ordered().Where(pair => !pair.Value.Unlocked).First().Key;
+            //List<int> possibleNexts = _goals.Where(pair => pair.Key > LastUnlockedPosition()).Select(pair => pair.Key).ToList();
+            //if (possibleNexts.Count == 0)
+            //    return 0;
+            //return possibleNexts.Min();
         }
 
         public Dictionary<int, Goal> Ordered()
